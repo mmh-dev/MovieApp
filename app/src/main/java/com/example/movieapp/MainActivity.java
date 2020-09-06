@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         API api = retrofit.create(API.class);
-        Call<ApiResponse> request = api.getMovies(Util.API_KEY, "en-US", sort);
+        Call<ApiResponse> request = api.getMovies(Util.API_KEY, "en-US", sort, false, false);
         request.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {

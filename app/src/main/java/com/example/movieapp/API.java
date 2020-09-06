@@ -9,6 +9,8 @@ public interface API {
     Call<ApiResponse> getMovies(
             @Query("api_key") String apiKey,
             @Query("language") String language,
-            @Query("sort_by") String sortBy);
+            @Query("sort_by") String sortBy,
+            @Query("include_adult") boolean includeAdult,
+            @Query("include_video") boolean includeVideo);
 
 }
