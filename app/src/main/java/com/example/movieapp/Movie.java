@@ -35,7 +35,10 @@ public class Movie {
         String path = "https://image.tmdb.org/t/p/w500" + poster_path;
         return path;
     }
-
+    public String getPath() {
+        String path = poster_path;
+        return path;
+    }
     public String getId() {
         return id;
     }

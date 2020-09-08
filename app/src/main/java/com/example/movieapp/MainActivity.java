@@ -9,7 +9,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,8 +30,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     SwipeRefreshLayout swipeRefreshLayout;
     SwitchCompat switcher;
-    TextView byPopularity;
-    TextView byRating;
+    TextView byPopularity, byRating;
     String sort = "popularity.desc";
     List<Movie> movies = new ArrayList<>();
 
@@ -70,6 +71,30 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        byPopularity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                byPopularity.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorAccent, null));
+                byRating.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorWhite, null));
+                sort = "popularity.desc";
+                loadMovies(sort);
+                switcher.setChecked(false);
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+        byRating.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                byRating.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorAccent, null));
+                byPopularity.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorWhite, null));
+                sort = "vote_average.desc";
+                loadMovies(sort);
+                switcher.setChecked(true);
+                adapter.notifyDataSetChanged();
+            }
+        });
+
         swipeRefreshLayout.setOnRefreshListener(() -> {
             loadMovies(sort);
         });
@@ -91,6 +116,16 @@ public class MainActivity extends AppCompatActivity {
                 if (response.isSuccessful()){
                     movies.clear();
                     movies = response.body().getResults();
+                    Log.i("tag1", String.valueOf(movies.size()));
+
+                    for (int i = 0; i <movies.size() ; i++) {
+                        if (movies.get(i).getPath() == null){
+                            movies.remove(i);
+                        }
+                    }
+
+                    Log.i("tag2", String.valueOf(movies.size()));
+
                     adapter = new MovieAdapter(movies, MainActivity.this);
                     recyclerView.setAdapter(adapter);
                     swipeRefreshLayout.setRefreshing(false);

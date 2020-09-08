@@ -37,7 +37,10 @@ public class MovieAdapter extends RecyclerView.Adapter <MovieAdapter.Holder> {
         }
         else {
             Picasso.get().load(movies.get(position).getPoster_path())
+                    .placeholder(R.mipmap.ic_launcher)
                     .into(holder.poster);
+
+
         }
     }
 
