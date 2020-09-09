@@ -15,7 +15,7 @@ public class Movie {
     private String original_title;
     private List<Integer> genre_ids;
     private String title;
-    private String vote_average;
+    private Double vote_average;
     private String overview;
     private String release_date;
 
@@ -36,8 +36,7 @@ public class Movie {
         return path;
     }
     public String getPath() {
-        String path = poster_path;
-        return path;
+        return poster_path;
     }
     public String getId() {
         return id;
@@ -48,6 +47,11 @@ public class Movie {
     }
 
     public String getBackdrop_path() {
+        String path = "https://image.tmdb.org/t/p/w500" + backdrop_path;
+        return path;
+    }
+
+    public String getBack_path() {
         return backdrop_path;
     }
 
@@ -67,7 +71,7 @@ public class Movie {
         return title;
     }
 
-    public String getVote_average() {
+    public Double getVote_average() {
         return vote_average;
     }
 

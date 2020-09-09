@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +15,8 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -116,19 +119,25 @@ public class MainActivity extends AppCompatActivity {
                 if (response.isSuccessful()){
                     movies.clear();
                     movies = response.body().getResults();
-                    Log.i("tag1", String.valueOf(movies.size()));
-
                     for (int i = 0; i <movies.size() ; i++) {
                         if (movies.get(i).getPath() == null){
                             movies.remove(i);
                         }
                     }
-
-                    Log.i("tag2", String.valueOf(movies.size()));
-
                     adapter = new MovieAdapter(movies, MainActivity.this);
                     recyclerView.setAdapter(adapter);
                     swipeRefreshLayout.setRefreshing(false);
+
+                    adapter.setOnItemClickListener(new MovieAdapter.RecycleOnClickListener() {
+                        @Override
+                        public void onItemClick(int position) {
+                            Intent intent = new Intent(MainActivity.this, Movie_details.class);
+                            Gson gson = new Gson();
+                            String object = gson.toJson(movies.get(position));
+                            intent.putExtra("movie", object);
+                            startActivity(intent);
+                        }
+                    });
                 }
             }
 
